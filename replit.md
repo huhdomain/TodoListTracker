@@ -7,6 +7,8 @@ This is a simple todo list application built with Streamlit. It provides a basic
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+User prefers Korean language interface and content.
+Design preferences: Dark theme with #002152 background, #f7941d accent color, Noto Sans KR font.
 
 ## System Architecture
 
