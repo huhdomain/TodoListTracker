@@ -56,11 +56,12 @@ st.markdown("""
 .task-card {
     background: var(--card-bg);
     border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
     border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .task-card:hover {
@@ -345,28 +346,13 @@ def main():
     else:
         st.markdown(f"### 할 일 목록 ({len(filtered_todos)}개)")
         
-        # Display each todo item with custom styling
+        # Display each todo item with improved layout
         for todo in filtered_todos:
             # Create a task card with custom styling
             card_class = "task-card task-completed" if todo['completed'] else "task-card"
             
-            st.markdown(f"""
-            <div class="{card_class}">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div style="flex: 1;">
-                        {'<s>' if todo['completed'] else '<strong>'}
-                        {todo['text']}
-                        {'</s>' if todo['completed'] else '</strong>'}
-                    </div>
-                    <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.7);">
-                        {'✅ 완료됨' if todo['completed'] else '⏳ 진행 중'} | 생성일: {todo['created_at']}
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Control buttons for each task
-            col1, col2, col3 = st.columns([0.5, 3, 0.5])
+            # Control buttons for each task with improved layout
+            col1, col2, col3 = st.columns([0.8, 6, 0.8])
             
             with col1:
                 # Checkbox for completion status
@@ -383,8 +369,25 @@ def main():
                     if todo['completed']:
                         toggle_todo(todo['id'])
             
+            with col2:
+                # Display task content in a card
+                st.markdown(f"""
+                <div class="{card_class}">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="font-size: 1.1rem;">
+                            {'<s style="color: rgba(255, 255, 255, 0.6);">' if todo['completed'] else '<strong>'}
+                            {todo['text']}
+                            {'</s>' if todo['completed'] else '</strong>'}
+                        </div>
+                        <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.7);">
+                            {'✅ 완료됨' if todo['completed'] else '⏳ 진행 중'} | 생성일: {todo['created_at']}
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+            
             with col3:
-                # Delete button
+                # Delete button aligned to the right
                 if st.button(
                     "🗑️",
                     key=f"delete_{todo['id']}",
