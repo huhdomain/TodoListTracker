@@ -284,23 +284,25 @@ def main():
     # Task input section
     st.markdown("### 새로운 할 일 추가")
     
-    # Create columns for input and button
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
-        new_task = st.text_input(
-            "새로운 할 일을 입력하세요:",
-            placeholder="무엇을 해야 하나요?",
-            key="new_task_input",
-            label_visibility="collapsed"
-        )
-    
-    with col2:
-        if st.button("할 일 추가", type="primary"):
+    # Create form for enter key functionality
+    with st.form("add_task_form", clear_on_submit=True):
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            new_task = st.text_input(
+                "새로운 할 일을 입력하세요:",
+                placeholder="무엇을 해야 하나요? (엔터키로 추가)",
+                label_visibility="collapsed"
+            )
+        
+        with col2:
+            submitted = st.form_submit_button("할 일 추가", type="primary", use_container_width=True)
+        
+        # Handle form submission
+        if submitted:
             if new_task.strip():
                 add_todo(new_task)
-                # Clear the input by resetting the key
-                st.session_state.new_task_input = ""
+                st.success("할 일이 추가되었습니다!")
             else:
                 st.error("유효한 할 일을 입력해주세요.")
     
